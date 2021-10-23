@@ -95,4 +95,7 @@ export const DebugSection = styled.div`
     margin-left: 10px;
     font-style: italic;
   }
+  .buttons{
+    
+  }
 `;
