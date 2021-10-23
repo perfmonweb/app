@@ -1,0 +1,5 @@
+export const SET_DEVICE = 'SET_DEVICE';
+export const SET_PACKAGE_NAME = 'SET_PACKAGE_NAME';
+export const SET_DEVICE_PROP = 'SET_DEVICE_PROP';
+export const TOGGLE_RECORDING = 'TOGGLE_RECORDING';
+export const SET_ERROR = 'SET_ERROR';
