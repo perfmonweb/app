@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import {
+  setChecked,
   setDeviceProp,
   setError,
   setPackageName,
@@ -12,6 +13,9 @@ import {
   selectDeviceName,
   selectDevicePlatform,
   selectError,
+  selectisCPUChecked,
+  selectisFPSChecked,
+  selectisMEMChecked,
   selectIsRecording,
   selectPackage,
   selectStatus,
@@ -19,6 +23,7 @@ import {
 import {
   DebugSection,
   Details,
+  ModuleSelection,
   StyledDropDownElements,
   StyledInput,
   StyledInputContainer,
@@ -26,7 +31,7 @@ import {
 
 function BasicComponent({
   setPackage,
-  selectedPackage,
+  selectPackage,
   selectStatus,
   setDeviceProp,
   selectDeviceName,
@@ -35,11 +40,17 @@ function BasicComponent({
   toggleRecording,
   selectIsRecording,
   setError,
+  setChecked,
   selectError,
+  selectisFPSChecked,
+  selectisCPUChecked,
+  selectisMEMChecked,
 }) {
   const [packages, setPackages] = useState([]);
   const [term, setTerm] = useState('');
   const [debouncedTerm, setDebouncedTerm] = useState(term);
+  const [time, setTime] = useState(0);
+  const [startTimer, setStartTimer] = useState(false);
 
   useEffect(() => {
     const apiUrl = `http://127.0.0.1:5002/getdeviceprop`;
@@ -58,7 +69,7 @@ function BasicComponent({
   }, [term]);
 
   useEffect(() => {
-    if (selectedPackage === debouncedTerm) {
+    if (selectPackage === debouncedTerm) {
       setPackages([]);
     } else {
       if (debouncedTerm) {
@@ -70,7 +81,19 @@ function BasicComponent({
         setPackages([]);
       }
     }
-  }, [selectedPackage, debouncedTerm]);
+  }, [selectPackage, debouncedTerm]);
+
+  useEffect(() => {
+    let interval = null;
+    if (startTimer) {
+      interval = setInterval(() => {
+        setTime((t) => t + 10);
+      }, 10);
+    } else {
+      clearInterval(interval);
+    }
+    return () => clearInterval(interval);
+  }, [startTimer]);
 
   const onTermChange = (e) => {
     e.stopPropagation();
@@ -91,12 +114,47 @@ function BasicComponent({
   };
 
   const startButtonClassName = `ui positive button ${
-    selectedPackage && !selectIsRecording ? '' : 'disabled'
+    selectPackage && !selectIsRecording ? '' : 'disabled'
   }`;
 
   const stopButtonClassName = `ui negative button ${
-    selectedPackage && selectIsRecording ? '' : 'disabled'
+    selectPackage && selectIsRecording ? '' : 'disabled'
   }`;
+
+  const startRecording = () => {
+    toggleRecording(true);
+    setError('');
+    setStartTimer(true);
+  };
+
+  const stopRecording = () => {
+    toggleRecording(false);
+    setError('');
+    setStartTimer(false);
+    setTime(0);
+  };
+
+  const getSeconds = (ms) => parseInt(Math.ceil(ms / 1000)) - 1;
+
+  const trimSeconds = (ms) =>
+    (parseInt(getSeconds(ms)) % 60).toLocaleString('en-US', {
+      minimumIntegerDigits: 2,
+      useGrouping: false,
+    });
+
+  const getMilliSeconds = (ms) =>
+    parseInt((ms % 1000) / 10).toLocaleString('en-US', {
+      minimumIntegerDigits: 2,
+      useGrouping: false,
+    });
+
+  const getMinutes = (ms) => {
+    let sec = getSeconds(ms);
+    return parseInt(parseInt(sec) / 60).toLocaleString('en-US', {
+      minimumIntegerDigits: 2,
+      useGrouping: false,
+    });
+  };
 
   return (
     <div style={{ width: '99vw' }}>
@@ -144,7 +202,7 @@ function BasicComponent({
         <div className='row'>
           <div className='col'>
             <label className='subCol'>Selected application </label>
-            <label className='subCol'>{selectedPackage}</label>
+            <label className='subCol'>{selectPackage}</label>
           </div>
           <div className='col'>
             <label className='subCol'>Board</label>
@@ -154,54 +212,105 @@ function BasicComponent({
       </Details>
       <DebugSection>
         <div className='debug'>
-          <label style={{ color: '#db3236' }}>
+          <label>Debug: </label>
+          <label>
             {selectError
               ? selectError
               : selectStatus
-              ? selectedPackage
+              ? selectPackage
                 ? ''
                 : 'Please select package name.'
               : 'Please check your adb connection.'}
           </label>
         </div>
         <div className='buttons'>
-          <button
-            className={startButtonClassName}
-            onClick={() => {
-              toggleRecording();
-              setError();
-            }}>
-            Start Recording
-          </button>
+          {!selectIsRecording ? (
+            <button
+              className={startButtonClassName}
+              onClick={() => startRecording()}>
+              Start Recording
+            </button>
+          ) : (
+            <button className='ui positive button disabled'>
+              <span className='minutes'>{getMinutes(time)}:</span>
+              <span className='seconds'>{trimSeconds(time)}</span>
+              <span className='ms'>{getMilliSeconds(time)}</span>
+            </button>
+          )}
           <button
             className={stopButtonClassName}
-            onClick={() => {
-              toggleRecording();
-              setError();
-            }}>
+            onClick={() => stopRecording()}>
             Stop Recording
           </button>
         </div>
       </DebugSection>
+      <ModuleSelection>
+        <div className='fps'>
+          <div className='ui checkbox'>
+            <input
+              type='checkbox'
+              checked={selectisFPSChecked}
+              onChange={(e) => {
+                e.stopPropagation();
+                setChecked('fpsChecked', e.target.checked);
+              }}
+            />
+            <label>FPS</label>
+          </div>
+        </div>
+        <div className='cpu'>
+          <div className='ui checkbox'>
+            <input
+              type='checkbox'
+              checked={selectisCPUChecked}
+              onChange={(e) => {
+                e.stopPropagation();
+                setChecked('cpuChecked', e.target.checked);
+              }}
+            />
+            <label>CPU</label>
+          </div>
+        </div>
+        <div className='mem'>
+          <div className='ui checkbox'>
+            <input
+              type='checkbox'
+              checked={selectisMEMChecked}
+              onChange={(e) => {
+                e.stopPropagation();
+                setChecked('memChecked', e.target.checked);
+              }}
+            />
+            <label>MEMORY</label>
+          </div>
+        </div>
+        <div className='warn'>
+          {`< Turning them off while test runs will effect your data`}
+        </div>
+      </ModuleSelection>
     </div>
   );
 }
 
 const mapStateToProps = createStructuredSelector({
-  selectedPackage: selectPackage,
-  selectStatus: selectStatus,
-  selectDeviceName: selectDeviceName,
-  selectDevicePlatform: selectDevicePlatform,
-  selectDeviceBoard: selectDeviceBoard,
-  selectIsRecording: selectIsRecording,
-  selectError: selectError,
+  selectPackage,
+  selectStatus,
+  selectDeviceName,
+  selectDevicePlatform,
+  selectDeviceBoard,
+  selectIsRecording,
+  selectError,
+  selectisFPSChecked,
+  selectisCPUChecked,
+  selectisMEMChecked,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   setPackage: (val) => dispatch(setPackageName(val)),
   setDeviceProp: (val) => dispatch(setDeviceProp(val)),
-  toggleRecording: () => dispatch(toggleRecording()),
+  toggleRecording: (val) => dispatch(toggleRecording(val)),
   setError: (err) => dispatch(setError(err)),
+  setChecked: (mod, val) => dispatch(setChecked(mod, val)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(BasicComponent);

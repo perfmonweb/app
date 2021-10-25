@@ -5,6 +5,11 @@ export const setDeviceStatus = (state, deviceStatusString) => {
   return { ...state, ip_address: ipAndStatus[0], status: status };
 };
 
-export const setDeviceProps = (state, deviceProps) => {
-  return { ...state, deviceProps: deviceProps[0] };
+export const setDeviceProps = (state, deviceProps) => ({
+  ...state,
+  deviceProps: deviceProps[0],
+});
+
+export const setCheckedValue = (state, mod, value) => {
+  return { ...state, [mod]: value };
 };

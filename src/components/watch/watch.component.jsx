@@ -1,10 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Route, Router, Switch } from 'react-router';
+import { HashRouter } from 'react-router-dom';
 import FPSComponent from '../fps/fps.component';
 import CPUComponent from '../cpu/cpu.component';
 import MemoryComponent from '../mem/mem.component';
-import history from '../../history';
 import './watch.styles.scss';
 
 function WatchComponent() {
@@ -22,15 +22,11 @@ function WatchComponent() {
         </Link>
       </div>
       <div>
-        <Router history={history}>
-          <div>
-            <Switch>
-              <Route path='/fps' exact component={FPSComponent} />
-              <Route path='/cpu' component={CPUComponent} />
-              <Route path='/mem' component={MemoryComponent} />
-            </Switch>
-          </div>
-        </Router>
+        <Switch>
+          <Route path='/fps' exact component={FPSComponent} />
+          <Route path='/cpu' exact component={CPUComponent} />
+          <Route path='/mem' exact component={MemoryComponent} />
+        </Switch>
       </div>
     </div>
   );

@@ -31,3 +31,45 @@ export const selectIsRecording = createSelector(
 );
 
 export const selectError = createSelector([fpsState], (state) => state.error);
+
+export const selectFPSValues = createSelector(
+  [fpsState],
+  (state) => state.fpsValues
+);
+
+export const selectCurrentFPS = createSelector([selectFPSValues], (arr) =>
+  arr ? arr.at(-1) : { value: 0, duration: 0 }
+);
+
+export const selectCPUValues = createSelector(
+  [fpsState],
+  (state) => state.cpuValues
+);
+
+export const selectCurrentCPU = createSelector([selectCPUValues], (arr) =>
+  arr ? arr.at(-1) : { app: 0, device: 0, duration: 0 }
+);
+
+export const selectMEMValues = createSelector(
+  [fpsState],
+  (state) => state.memValues
+);
+
+export const selectCurrentMEM = createSelector([selectMEMValues], (arr) =>
+  arr ? arr.at(-1) : { app: 0, device: 0, duration: 0 }
+);
+
+export const selectisFPSChecked = createSelector(
+  [fpsState],
+  (fps) => fps.fpsChecked
+);
+
+export const selectisCPUChecked = createSelector(
+  [fpsState],
+  (cpu) => cpu.cpuChecked
+);
+
+export const selectisMEMChecked = createSelector(
+  [fpsState],
+  (mem) => mem.memChecked
+);

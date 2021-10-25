@@ -1,0 +1,86 @@
+$blue: #176BEF;
+$red: #FF3E30;
+$yellow: #F7B529;
+$green: #179C52;
+
+@mixin google-font{
+    &:nth-child(3n+1){
+        color: $blue;
+    }
+    &:nth-child(3n+2){
+        color: $red
+    }
+    &:nth-child(3n+3){
+        color: $yellow;
+    }
+    &:nth-child(3n+4){
+        color: $blue;
+    }
+    &:nth-child(3n+5){
+        color: $green;
+    }
+    &:nth-child(3n+6){
+        color: $red;
+    }
+}
+
+.fps-container{
+    display: flex;
+}
+
+.lineChart{
+    border: 1px solid black;
+    width: 70%;
+    background-color: white;
+    box-shadow: 0px 10px 20px black;
+}
+
+.data{
+    width: 30%;
+    border: 1px solid black;
+    margin: 2%;
+    padding: 2%;
+    .name{
+        font-size: 2em;
+        text-align: center;
+        margin-bottom: 1em;
+        span{
+            @include google-font()
+        }
+    }
+    .value{
+        display: flex;
+        justify-content: space-evenly;
+        .col{
+            width: 100%;
+        }
+    }
+    .duration{
+        display: flex;
+        width: 100%;
+        justify-content: space-evenly;
+        .col{
+            width: 100%;
+        }
+    }
+}
+
+
+
+.display{
+    width: 90%;
+    height: 400px;
+    text-align: center;
+    position: relative;
+    .centered{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 3em;
+
+        span{
+            @include google-font()
+        }
+    }
+}

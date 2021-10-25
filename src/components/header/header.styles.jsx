@@ -81,7 +81,6 @@ export const Item = styled.div`
   .centered {
     transform: translate(10px, 10px);
     height: 100%;
-
     span {
       &:nth-child(6n + 1) {
         color: ${blue};
@@ -101,7 +100,7 @@ export const Item = styled.div`
       &:nth-child(6n + 6) {
         color: ${red};
       }
-      &:nth-child(6n + 6) {
+      &:nth-child(6n + 7) {
         color: ${blue};
       }
     }

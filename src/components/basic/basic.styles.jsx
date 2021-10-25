@@ -94,8 +94,37 @@ export const DebugSection = styled.div`
     width: 70%;
     margin-left: 10px;
     font-style: italic;
+    font-size: small;
+    border: 1px solid #ea4345;
+    color: #ea4345;
+    border-radius: 10px;
+    padding: 3px;
   }
-  .buttons{
-    
+  .buttons {
+    .button {
+      .minutes {
+        font-size: 1.1em;
+        color: white;
+      }
+      .seconds {
+        font-size: 1.1em;
+      }
+      .ms {
+        font-size: 0.7em;
+      }
+    }
+  }
+`;
+
+export const ModuleSelection = styled.div`
+  width: 50%;
+  display: flex;
+  justify-content: space-evenly;
+  padding: 0.5em;
+
+  .warn {
+    border-radius: 20px;
+    background: #fbbc05;
+    padding: 0 5px;
   }
 `;

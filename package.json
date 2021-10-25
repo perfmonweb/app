@@ -1,6 +1,6 @@
 {
   "name": "perf-mon-with-react",
-  "homepage": "https://www.perfmonweb.github.io/perfmonweb",
+  "homepage": "https://www.perfmonweb.github.io/app",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

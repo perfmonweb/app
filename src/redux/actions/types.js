@@ -3,3 +3,7 @@ export const SET_PACKAGE_NAME = 'SET_PACKAGE_NAME';
 export const SET_DEVICE_PROP = 'SET_DEVICE_PROP';
 export const TOGGLE_RECORDING = 'TOGGLE_RECORDING';
 export const SET_ERROR = 'SET_ERROR';
+export const SET_FPS = 'SET_FPS';
+export const SET_CPU = 'SET_CPU';
+export const SET_MEM = 'SET_MEM';
+export const SET_CHECKED = 'SET_CHECKED';

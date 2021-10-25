@@ -1,18 +1,16 @@
-import React from 'react';
-import { Chart } from 'react-google-charts';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import { setError, toggleRecording } from '../../redux/actions';
+import { setError, setFPS, toggleRecording } from '../../redux/actions';
 import {
+  selectCurrentFPS,
+  selectFPSValues,
   selectIsRecording,
   selectPackage,
 } from '../../redux/reducers/fps/fps.selector';
-import './fps.styles.scss';
+import MetricComponent from '../metric/metric.component';
 
-class FPSComponent extends React.Component {
-  state = {
-    fps: [],
-  };
+class CPUComponent extends Component {
   interval = null;
   i = 0;
   componentDidUpdate() {
@@ -25,53 +23,35 @@ class FPSComponent extends React.Component {
           if (contentType && contentType.indexOf('application/json') !== -1) {
             return response.json().then((data) => {
               // process JSON data
-              this.setState({
-                fps: [
-                  ...this.state.fps,
-                  {
-                    value: parseFloat(data).toFixed(2),
-                    duration: this.i++,
-                  },
-                ],
+              this.props.setFPS({
+                value: parseFloat(data).toFixed(2),
+                duration: this.i++,
               });
             });
           } else {
             return response.text().then((text) => {
               // process error from server
               this.props.setError(text);
-              this.props.toggleRecording();
+              this.props.toggleRecording(false);
             });
           }
         });
-      }, 1000);
+      }, 700);
     }
   }
-
   render() {
     let data = [['Time(sec)', 'FPS']];
-    this.state.fps.map((val) =>
+    this.props.selectFPSValues.map((val) =>
       data.push([parseFloat(val.duration), parseInt(val.value)])
     );
     return (
-      <div>
-        <div className='lineChart'>
-          <Chart
-            chartType='LineChart'
-            data={data.map((val) => val)}
-            width='100%'
-            height='400px'
-            legendToggle
-            options={{
-              hAxis: {
-                title: 'Time',
-              },
-              vAxis: {
-                title: 'FPS',
-              },
-            }}
-          />
-        </div>
-      </div>
+      <MetricComponent
+        data={data}
+        name={['F', 'P', 'S']}
+        currentMetricValue={this.props.selectCurrentFPS?.value || 0}
+        currentMetricDuration={
+          this.props.selectCurrentFPS?.duration || 0
+        }></MetricComponent>
     );
   }
 }
@@ -79,11 +59,14 @@ class FPSComponent extends React.Component {
 const mapStateToProps = createStructuredSelector({
   selectIsRecording: selectIsRecording,
   selectedPackage: selectPackage,
+  selectCurrentFPS: selectCurrentFPS,
+  selectFPSValues: selectFPSValues,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   setError: (err) => dispatch(setError(err)),
-  toggleRecording: () => dispatch(toggleRecording()),
+  toggleRecording: (val) => dispatch(toggleRecording(val)),
+  setFPS: (val) => dispatch(setFPS(val)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(FPSComponent);
+export default connect(mapStateToProps, mapDispatchToProps)(CPUComponent);
