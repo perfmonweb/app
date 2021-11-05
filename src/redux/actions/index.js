@@ -7,6 +7,7 @@ import {
   SET_FPS,
   SET_MEM,
   SET_PACKAGE_NAME,
+  SET_SESSION,
   TOGGLE_RECORDING,
 } from './types';
 
@@ -47,6 +48,11 @@ export const setCPU = (val) => ({
 
 export const setMEM = (val) => ({
   type: SET_MEM,
+  payload: val,
+});
+
+export const setSession = (val) => ({
+  type: SET_SESSION,
   payload: val,
 });
 

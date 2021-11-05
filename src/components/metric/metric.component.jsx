@@ -4,7 +4,6 @@ import { Chart } from 'react-google-charts';
 
 class MetricComponent extends React.Component {
   render() {
-    console.log(this.props.currentMetricValue);
     return (
       <div className='fps-container'>
         <div className='lineChart'>
@@ -34,25 +33,6 @@ class MetricComponent extends React.Component {
             </div>
           )}
         </div>
-        {this.props.currentMetricDuration ? (
-          <div className='data'>
-            <div className='name'>
-              {this.props.name.map((a) => (
-                <span>{a}</span>
-              ))}
-            </div>
-            <div className='value'>
-              <span className='col'>Current {this.props.name}</span>
-              <span className='col'>{this.props.currentMetricValue}</span>
-            </div>
-            <div className='duration'>
-              <span className='col'>Iterations(~1.5sec)</span>
-              <span className='col'>{this.props.currentMetricDuration}</span>
-            </div>
-          </div>
-        ) : (
-          <React.Fragment></React.Fragment>
-        )}
       </div>
     );
   }

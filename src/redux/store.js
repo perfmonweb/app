@@ -12,4 +12,4 @@ export const store = createStore(
   composeEnhancers(applyMiddleware(...middleware))
 );
 
-export const persistor = persistStore(store);
+export const persistor = store;

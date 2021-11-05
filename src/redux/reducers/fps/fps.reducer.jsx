@@ -8,11 +8,13 @@ import {
   SET_CPU,
   SET_MEM,
   SET_CHECKED,
+  SET_SESSION,
 } from '../../actions/types';
 import { setCheckedValue, setDeviceProps, setDeviceStatus } from './fps.utils';
 
 const INITIAL_STATE = {
   ip_address: '',
+  session: {},
   status: '',
   package: '',
   error: '',
@@ -46,6 +48,8 @@ const fpsReducer = (state = INITIAL_STATE, action) => {
       return { ...state, memValues: [...state.memValues, action.payload] };
     case SET_CHECKED:
       return setCheckedValue(state, action.mod, action.val);
+    case SET_SESSION:
+      return { ...state, session: action.payload };
     default:
       return state;
   }

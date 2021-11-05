@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect';
+
 const fpsState = (state) => state.fps;
 
 export const selectIp = createSelector([fpsState], (state) => state.ip_address);
@@ -72,4 +73,9 @@ export const selectisCPUChecked = createSelector(
 export const selectisMEMChecked = createSelector(
   [fpsState],
   (mem) => mem.memChecked
+);
+
+export const selectSession = createSelector(
+  [fpsState],
+  (state) => state.session
 );

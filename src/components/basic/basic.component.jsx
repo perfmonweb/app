@@ -57,7 +57,10 @@ function BasicComponent({
     fetch(apiUrl)
       .then((response) => response.json())
       .then((data) => setDeviceProp(data));
-  }, [setDeviceProp]);
+    if (selectStatus !== 'device')
+      setError('Please check your adb connection.');
+    else setError('');
+  }, [setDeviceProp, selectStatus, setError]);
 
   useEffect(() => {
     const timerId = setTimeout(() => {

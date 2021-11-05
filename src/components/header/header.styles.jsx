@@ -49,7 +49,7 @@ export const Status = styled.div`
   display: flex;
   position: absolute;
   top: 50%;
-  left: 50%;
+  left: 30%;
   transform: translate(-50%, -50%);
   border: 1px solid ${(props) => (props.light === 'device' ? green : 'red')};
   color: ${(props) => (props.light === 'device' ? green : 'red')};
@@ -68,6 +68,25 @@ export const Status = styled.div`
     width: 10px;
     box-shadow: 0px 0px 10px 4px
       ${(props) => (props.light === 'device' ? green : red)};
+  }
+
+  .press {
+    /* border: 0.5px solid black; */
+    border-radius: 5px;
+    margin: 0 5px;
+    box-shadow: -1px 1px 1px 1px #888888;
+
+    :hover {
+      cursor: pointer;
+      transform: translateY(-1px);
+      box-shadow: -1px 2px 1px 1px #888888;
+    }
+
+    :active {
+      cursor: pointer;
+      transform: translateY(1px);
+      box-shadow: -1px 0px 1px 0px #888888;
+    }
   }
 `;
 
@@ -103,6 +122,75 @@ export const Item = styled.div`
       &:nth-child(6n + 7) {
         color: ${blue};
       }
+    }
+  }
+`;
+
+export const SessionTab = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 70%;
+  transform: translate(-50%, -50%);
+  border: 1px solid black;
+  border-radius: 10px;
+  padding: 2px 4px;
+  align-items: center;
+  justify-content: center;
+
+  form > input {
+    -webkit-appearance: none;
+    border: 0;
+    :focus {
+      border: 0;
+      outline: 0;
+    }
+  }
+
+  form {
+    display: flex;
+    .button {
+    }
+  }
+`;
+
+export const ToolTip = styled.div`
+  background: none;
+  padding: 0 3px;
+  :hover {
+    cursor: pointer;
+    transform: translateY(-1px);
+    .tooltip {
+      visibility: visible;
+    }
+  }
+
+  :active {
+    cursor: pointer;
+    transform: translateY(1px);
+  }
+  .tooltip {
+    visibility: hidden;
+    width: 140px;
+    background-color: #0006;
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+    font-size: smaller;
+
+    /* Position the tooltip text - see examples below! */
+    position: absolute;
+    z-index: 7;
+
+    ::after {
+      content: ' ';
+      position: absolute;
+      top: 50%;
+      right: 100%; /* To the left of the tooltip */
+      margin-top: -5px;
+      border-width: 5px;
+      border-style: solid;
+      border-color: transparent black transparent transparent;
     }
   }
 `;

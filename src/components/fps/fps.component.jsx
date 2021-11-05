@@ -10,7 +10,7 @@ import {
 } from '../../redux/reducers/fps/fps.selector';
 import MetricComponent from '../metric/metric.component';
 
-class CPUComponent extends Component {
+class FPSComponent extends Component {
   interval = null;
   i = 0;
   componentDidUpdate() {
@@ -45,13 +45,7 @@ class CPUComponent extends Component {
       data.push([parseFloat(val.duration), parseInt(val.value)])
     );
     return (
-      <MetricComponent
-        data={data}
-        name={['F', 'P', 'S']}
-        currentMetricValue={this.props.selectCurrentFPS?.value || 0}
-        currentMetricDuration={
-          this.props.selectCurrentFPS?.duration || 0
-        }></MetricComponent>
+      <MetricComponent data={data} name={['F', 'P', 'S']}></MetricComponent>
     );
   }
 }
@@ -69,4 +63,4 @@ const mapDispatchToProps = (dispatch) => ({
   setFPS: (val) => dispatch(setFPS(val)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(CPUComponent);
+export default connect(mapStateToProps, mapDispatchToProps)(FPSComponent);

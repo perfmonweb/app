@@ -7,3 +7,4 @@ export const SET_FPS = 'SET_FPS';
 export const SET_CPU = 'SET_CPU';
 export const SET_MEM = 'SET_MEM';
 export const SET_CHECKED = 'SET_CHECKED';
+export const SET_SESSION = 'SET_SESSION';
