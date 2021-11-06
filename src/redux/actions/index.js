@@ -1,4 +1,5 @@
 import {
+  RESET_SESSION,
   SET_CHECKED,
   SET_CPU,
   SET_DEVICE,
@@ -9,6 +10,7 @@ import {
   SET_PACKAGE_NAME,
   SET_SESSION,
   TOGGLE_RECORDING,
+  SET_SESSION_TIME,
 } from './types';
 
 export const setDevice = (deviceStatus) => ({
@@ -60,4 +62,13 @@ export const setChecked = (mod, value) => ({
   type: SET_CHECKED,
   mod,
   val: value,
+});
+
+export const resetSession = () => ({
+  type: RESET_SESSION,
+});
+
+export const setSessionTime = (value) => ({
+  type: SET_SESSION_TIME,
+  payload: value,
 });

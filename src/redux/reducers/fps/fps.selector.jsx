@@ -79,3 +79,8 @@ export const selectSession = createSelector(
   [fpsState],
   (state) => state.session
 );
+
+export const selectSessionTime = createSelector(
+  [fpsState],
+  (state) => state.sessionTime
+);

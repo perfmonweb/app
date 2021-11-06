@@ -8,3 +8,5 @@ export const SET_CPU = 'SET_CPU';
 export const SET_MEM = 'SET_MEM';
 export const SET_CHECKED = 'SET_CHECKED';
 export const SET_SESSION = 'SET_SESSION';
+export const RESET_SESSION = 'RESET_SESSION';
+export const SET_SESSION_TIME = 'SET_SESSION_TIME';

@@ -1,14 +1,16 @@
 import styled, { keyframes } from 'styled-components';
 
-const blue = '#176BEF';
+const blue = 'white';
 const red = '#FF3E30';
 const yellow = '#F7B529';
-const green = '#179C52';
+const green = '#black';
 
 export const MainContainer = styled.div`
   display: flex;
   position: relative;
   height: 40px;
+  background: #3b7aee;
+  padding-bottom: 5%;
 `;
 
 export const Logo = styled.div`
@@ -48,26 +50,27 @@ export const Logo = styled.div`
 export const Status = styled.div`
   display: flex;
   position: absolute;
-  top: 50%;
+  top: 30%;
   left: 30%;
   transform: translate(-50%, -50%);
-  border: 1px solid ${(props) => (props.light === 'device' ? green : 'red')};
-  color: ${(props) => (props.light === 'device' ? green : 'red')};
+  border: 1px solid ${(props) => (props.light === 'device' ? 'green' : 'red')};
+  color: ${(props) => (props.light === 'device' ? 'green' : 'red')};
   border-radius: 10px;
   padding: 2px 4px;
   align-items: center;
   justify-content: center;
+  background: white;
   .st {
   }
   .light {
-    border: 1px solid ${(props) => (props.light === 'device' ? green : 'red')};
+    border: 1px solid ${(props) => (props.light === 'device' ? 'green' : 'red')};
     border-radius: 50%;
-    background: ${(props) => (props.light === 'device' ? green : red)};
+    background: ${(props) => (props.light === 'device' ? 'green' : red)};
     margin: 0 5px;
     height: 10px;
     width: 10px;
     box-shadow: 0px 0px 10px 4px
-      ${(props) => (props.light === 'device' ? green : red)};
+      ${(props) => (props.light === 'device' ? 'green' : red)};
   }
 
   .press {
@@ -128,7 +131,7 @@ export const Item = styled.div`
 
 export const SessionTab = styled.div`
   position: absolute;
-  top: 50%;
+  top: 30%;
   left: 70%;
   transform: translate(-50%, -50%);
   border: 1px solid black;
@@ -136,7 +139,7 @@ export const SessionTab = styled.div`
   padding: 2px 4px;
   align-items: center;
   justify-content: center;
-
+  background: white;
   form > input {
     -webkit-appearance: none;
     border: 0;

@@ -9,6 +9,8 @@ import {
   SET_MEM,
   SET_CHECKED,
   SET_SESSION,
+  RESET_SESSION,
+  SET_SESSION_TIME,
 } from '../../actions/types';
 import { setCheckedValue, setDeviceProps, setDeviceStatus } from './fps.utils';
 
@@ -26,6 +28,7 @@ const INITIAL_STATE = {
   fpsChecked: true,
   cpuChecked: true,
   memChecked: true,
+  sessionTime: 0,
 };
 
 const fpsReducer = (state = INITIAL_STATE, action) => {
@@ -50,6 +53,16 @@ const fpsReducer = (state = INITIAL_STATE, action) => {
       return setCheckedValue(state, action.mod, action.val);
     case SET_SESSION:
       return { ...state, session: action.payload };
+    case RESET_SESSION:
+      return {
+        ...state,
+        fpsValues: [],
+        cpuValues: [],
+        memValues: [],
+        sessionTime: 0,
+      };
+    case SET_SESSION_TIME:
+      return { ...state, sessionTime: action.payload };
     default:
       return state;
   }

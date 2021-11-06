@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import {
+  resetSession,
   setChecked,
   setDeviceProp,
   setError,
   setPackageName,
+  setSessionTime,
   toggleRecording,
 } from '../../redux/actions';
 import {
@@ -23,7 +25,7 @@ import {
 import {
   DebugSection,
   Details,
-  ModuleSelection,
+  MainContainer,
   StyledDropDownElements,
   StyledInput,
   StyledInputContainer,
@@ -40,11 +42,9 @@ function BasicComponent({
   toggleRecording,
   selectIsRecording,
   setError,
-  setChecked,
+  resetValues,
   selectError,
-  selectisFPSChecked,
-  selectisCPUChecked,
-  selectisMEMChecked,
+  setSessionTime,
 }) {
   const [packages, setPackages] = useState([]);
   const [term, setTerm] = useState('');
@@ -91,12 +91,13 @@ function BasicComponent({
     if (startTimer) {
       interval = setInterval(() => {
         setTime((t) => t + 10);
+        setSessionTime(Math.floor(time / 1000));
       }, 10);
     } else {
       clearInterval(interval);
     }
     return () => clearInterval(interval);
-  }, [startTimer]);
+  }, [startTimer, setSessionTime, time]);
 
   const onTermChange = (e) => {
     e.stopPropagation();
@@ -134,9 +135,15 @@ function BasicComponent({
     toggleRecording(false);
     setError('');
     setStartTimer(false);
-    setTime(0);
   };
 
+  const resetRecording = () => {
+    toggleRecording(false);
+    setError('');
+    setStartTimer(false);
+    setTime(0);
+    resetValues();
+  };
   const getSeconds = (ms) => parseInt(Math.ceil(ms / 1000)) - 1;
 
   const trimSeconds = (ms) =>
@@ -160,11 +167,9 @@ function BasicComponent({
   };
 
   return (
-    <div style={{ width: '99vw' }}>
+    <MainContainer>
       <StyledInputContainer>
-        <label className='label'>
-          <div className='centered'>Application package</div>
-        </label>
+        <i className='search icon'></i>
         <StyledInput
           type='text'
           name='package'
@@ -192,25 +197,25 @@ function BasicComponent({
         </StyledDropDownElements>
       )}
       <Details>
-        <div className='row'>
-          <div className='col'>
-            <label className='subCol'>Device</label>
-            <label className='subCol'>{selectDeviceName}</label>
+        <div className='labels'>
+          {selectDeviceName !== 'undefined' ? (
+            <div className='ui circular label'>{selectDeviceName}</div>
+          ) : (
+            <div className='ui circular label'>Device Name</div>
+          )}
+          {selectDevicePlatform !== 'undefined' ? (
+            <div className='ui circular label'>{selectDevicePlatform}</div>
+          ) : (
+            <div className='ui circular label'>Device Platform</div>
+          )}
+          <div className='ui circular label'>
+            {selectPackage || 'Package Name'}
           </div>
-          <div className='col'>
-            <label className='subCol'>Platform</label>
-            <label className='subCol'>{selectDevicePlatform}</label>
-          </div>
-        </div>
-        <div className='row'>
-          <div className='col'>
-            <label className='subCol'>Selected application </label>
-            <label className='subCol'>{selectPackage}</label>
-          </div>
-          <div className='col'>
-            <label className='subCol'>Board</label>
-            <label className='subCol'>{selectDeviceBoard}</label>
-          </div>
+          {selectDeviceBoard !== 'undefined' ? (
+            <div className='ui circular label'>{selectDeviceBoard}</div>
+          ) : (
+            <div className='ui circular label'>Device Board</div>
+          )}
         </div>
       </Details>
       <DebugSection>
@@ -228,15 +233,23 @@ function BasicComponent({
         </div>
         <div className='buttons'>
           {!selectIsRecording ? (
-            <button
-              className={startButtonClassName}
-              onClick={() => startRecording()}>
-              Start Recording
-            </button>
+            time ? (
+              <button
+                className={startButtonClassName}
+                onClick={() => resetRecording()}>
+                Reset
+              </button>
+            ) : (
+              <button
+                className={startButtonClassName}
+                onClick={() => startRecording()}>
+                Start Recording
+              </button>
+            )
           ) : (
             <button className='ui positive button disabled'>
-              <span className='minutes'>{getMinutes(time)}:</span>
-              <span className='seconds'>{trimSeconds(time)}</span>
+              <span className='minutes'>{getMinutes(time)}m</span>
+              <span className='seconds'>{trimSeconds(time)}s</span>
               <span className='ms'>{getMilliSeconds(time)}</span>
             </button>
           )}
@@ -247,51 +260,7 @@ function BasicComponent({
           </button>
         </div>
       </DebugSection>
-      <ModuleSelection>
-        <div className='fps'>
-          <div className='ui checkbox'>
-            <input
-              type='checkbox'
-              checked={selectisFPSChecked}
-              onChange={(e) => {
-                e.stopPropagation();
-                setChecked('fpsChecked', e.target.checked);
-              }}
-            />
-            <label>FPS</label>
-          </div>
-        </div>
-        <div className='cpu'>
-          <div className='ui checkbox'>
-            <input
-              type='checkbox'
-              checked={selectisCPUChecked}
-              onChange={(e) => {
-                e.stopPropagation();
-                setChecked('cpuChecked', e.target.checked);
-              }}
-            />
-            <label>CPU</label>
-          </div>
-        </div>
-        <div className='mem'>
-          <div className='ui checkbox'>
-            <input
-              type='checkbox'
-              checked={selectisMEMChecked}
-              onChange={(e) => {
-                e.stopPropagation();
-                setChecked('memChecked', e.target.checked);
-              }}
-            />
-            <label>MEMORY</label>
-          </div>
-        </div>
-        <div className='warn'>
-          {`< Turning them off while test runs will effect your data`}
-        </div>
-      </ModuleSelection>
-    </div>
+    </MainContainer>
   );
 }
 
@@ -314,6 +283,8 @@ const mapDispatchToProps = (dispatch) => ({
   toggleRecording: (val) => dispatch(toggleRecording(val)),
   setError: (err) => dispatch(setError(err)),
   setChecked: (mod, val) => dispatch(setChecked(mod, val)),
+  resetValues: () => dispatch(resetSession()),
+  setSessionTime: (val) => dispatch(setSessionTime(val)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(BasicComponent);
