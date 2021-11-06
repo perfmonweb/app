@@ -36,7 +36,7 @@ class FPSComponent extends Component {
             });
           }
         });
-      }, 700);
+      }, 900);
     }
   }
   render() {

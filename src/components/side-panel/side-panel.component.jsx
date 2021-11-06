@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import {
+  selectCurrentCPU,
+  selectCurrentFPS,
+  selectCurrentMEM,
   selectisCPUChecked,
   selectisFPSChecked,
   selectisMEMChecked,
@@ -16,6 +19,9 @@ const SidePanel = ({
   isMEMChecked,
   setChecked,
   sessionTime,
+  currentFPS,
+  currentCPU,
+  currentMEM,
 }) => {
   const [fpsOpen, setIsFPSOpen] = useState(false);
   const [cpuOpen, setIsCPUOpen] = useState(false);
@@ -56,8 +62,18 @@ const SidePanel = ({
           </div>
           {fpsOpen ? (
             <div className='info' onClick={(e) => e.stopPropagation()}>
-              {/* FPS Values  
-                      Number of iterations*/}
+              <div className='row'>
+                <div className='col'>Current FPS</div>
+                <div className='col'>{currentFPS?.value || 0}</div>
+              </div>
+              <div className='row'>
+                <div className='col'>Iterations</div>
+                <div className='col'>{currentFPS?.duration || 0}</div>
+              </div>
+              <div className='row'>
+                <div className='col'>Average</div>
+                <div className='col'>89</div>
+              </div>
             </div>
           ) : (
             <React.Fragment></React.Fragment>
@@ -89,8 +105,22 @@ const SidePanel = ({
           </div>
           {cpuOpen ? (
             <div className='info' onClick={(e) => e.stopPropagation()}>
-              {/* CPU values
-                      Number of iterations */}
+              <div className='row'>
+                <div className='col'>Current App usage</div>
+                <div className='col'>{currentCPU?.app || 0}</div>
+              </div>
+              <div className='row'>
+                <div className='col'>Current Device usage</div>
+                <div className='col'>{currentCPU?.device || 0}</div>
+              </div>
+              <div className='row'>
+                <div className='col'>Iterations</div>
+                <div className='col'>{currentCPU?.duration || 0}</div>
+              </div>
+              <div className='row'>
+                <div className='col'>Average</div>
+                <div className='col'>89</div>
+              </div>
             </div>
           ) : (
             <React.Fragment></React.Fragment>
@@ -121,8 +151,22 @@ const SidePanel = ({
           </div>
           {memOpen ? (
             <div className='info' onClick={(e) => e.stopPropagation()}>
-              {/* Memory values
-                      Number of iterations */}
+              <div className='row'>
+                <div className='col'>Current App usage</div>
+                <div className='col'>{currentMEM?.app || 0}</div>
+              </div>
+              <div className='row'>
+                <div className='col'>Current Device usage</div>
+                <div className='col'>{currentMEM?.device || 0}</div>
+              </div>
+              <div className='row'>
+                <div className='col'>Iterations</div>
+                <div className='col'>{currentMEM?.duration || 0}</div>
+              </div>
+              <div className='row'>
+                <div className='col'>Average</div>
+                <div className='col'>89</div>
+              </div>
             </div>
           ) : (
             <React.Fragment></React.Fragment>
@@ -138,6 +182,9 @@ const mapStateToProps = createStructuredSelector({
   isCPUChecked: selectisCPUChecked,
   isMEMChecked: selectisMEMChecked,
   sessionTime: selectSessionTime,
+  currentFPS: selectCurrentFPS,
+  currentCPU: selectCurrentCPU,
+  currentMEM: selectCurrentMEM,
 });
 
 const mapDispatchToProps = (dispatch) => ({

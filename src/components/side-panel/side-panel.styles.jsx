@@ -104,7 +104,7 @@ export const Panel = styled.div`
 
 export const Pane = styled.div`
   border-bottom: 1px solid grey;
-  z-index: 0;
+  z-index: 1;
   :first-child {
     border-top: 1px solid grey;
   }
@@ -142,6 +142,20 @@ export const Pane = styled.div`
     background: #44579f77;
     margin-bottom: 0;
     border-top: 1px solid grey;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    .row {
+      display: flex;
+      justify-content: space-between;
+      width: 60%;
+      margin: 0 10%;
+      .col {
+        width: 100%;
+        text-align: right;
+      }
+    }
     :hover {
       background: #44579f77;
     }
