@@ -60,6 +60,9 @@ const fpsReducer = (state = INITIAL_STATE, action) => {
         cpuValues: [],
         memValues: [],
         sessionTime: 0,
+        fpsChecked: false,
+        cpuChecked: false,
+        memChecked: false,
       };
     case SET_SESSION_TIME:
       return { ...state, sessionTime: action.payload };

@@ -67,10 +67,6 @@ export const SidePanelContainer = styled.div`
     }
   }
 
-  i {
-    transform: ${(props) => `rotateZ(${props.time * 6}deg)`};
-  }
-
   ::before {
     content: '';
     display: block;
@@ -107,6 +103,19 @@ export const Pane = styled.div`
   z-index: 1;
   :first-child {
     border-top: 1px solid grey;
+  }
+  .cloud {
+    color: white;
+    margin: 1em;
+    text-align: center;
+    :hover {
+      cursor: pointer;
+    }
+    * {
+      :hover {
+        cursor: pointer;
+      }
+    }
   }
   .parent {
     display: flex;

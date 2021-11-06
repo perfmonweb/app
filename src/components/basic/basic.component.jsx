@@ -90,9 +90,9 @@ function BasicComponent({
     let interval = null;
     if (startTimer) {
       interval = setInterval(() => {
-        setTime((t) => t + 10);
+        setTime(time + 100);
         setSessionTime(Math.floor(time / 1000));
-      }, 10);
+      }, 100);
     } else {
       clearInterval(interval);
     }

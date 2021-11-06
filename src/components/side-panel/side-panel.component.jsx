@@ -2,16 +2,27 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import {
+  selectCPUValues,
   selectCurrentCPU,
   selectCurrentFPS,
   selectCurrentMEM,
+  selectFPSValues,
   selectisCPUChecked,
   selectisFPSChecked,
   selectisMEMChecked,
+  selectMEMValues,
   selectSessionTime,
+  selectIsRecording,
+  selectSession,
+  selectIsSessionAvailable,
 } from '../../redux/reducers/fps/fps.selector';
 import { setChecked } from '../../redux/actions';
 import { Pane, Panel, SidePanelContainer } from './side-panel.styles';
+import {
+  getAverageAppUsage,
+  getAverageDeviceUsage,
+  getAverageFPS,
+} from '../../redux/reducers/fps/fps.utils';
 
 const SidePanel = ({
   isFPSChecked,
@@ -22,6 +33,11 @@ const SidePanel = ({
   currentFPS,
   currentCPU,
   currentMEM,
+  FPSValues,
+  CPUValues,
+  MEMValues,
+  isRecording,
+  isSessionAvailable,
 }) => {
   const [fpsOpen, setIsFPSOpen] = useState(false);
   const [cpuOpen, setIsCPUOpen] = useState(false);
@@ -63,16 +79,16 @@ const SidePanel = ({
           {fpsOpen ? (
             <div className='info' onClick={(e) => e.stopPropagation()}>
               <div className='row'>
+                <div className='col'>Iterations</div>
+                <div className='col'>{FPSValues?.length || 0}</div>
+              </div>
+              <div className='row'>
                 <div className='col'>Current FPS</div>
                 <div className='col'>{currentFPS?.value || 0}</div>
               </div>
               <div className='row'>
-                <div className='col'>Iterations</div>
-                <div className='col'>{currentFPS?.duration || 0}</div>
-              </div>
-              <div className='row'>
                 <div className='col'>Average</div>
-                <div className='col'>89</div>
+                <div className='col'>{getAverageFPS(FPSValues)}</div>
               </div>
             </div>
           ) : (
@@ -106,6 +122,10 @@ const SidePanel = ({
           {cpuOpen ? (
             <div className='info' onClick={(e) => e.stopPropagation()}>
               <div className='row'>
+                <div className='col'>Iterations</div>
+                <div className='col'>{CPUValues?.length || 0}</div>
+              </div>
+              <div className='row'>
                 <div className='col'>Current App usage</div>
                 <div className='col'>{currentCPU?.app || 0}</div>
               </div>
@@ -114,12 +134,12 @@ const SidePanel = ({
                 <div className='col'>{currentCPU?.device || 0}</div>
               </div>
               <div className='row'>
-                <div className='col'>Iterations</div>
-                <div className='col'>{currentCPU?.duration || 0}</div>
+                <div className='col'>Average App Usage</div>
+                <div className='col'>{getAverageAppUsage(CPUValues)}</div>
               </div>
               <div className='row'>
-                <div className='col'>Average</div>
-                <div className='col'>89</div>
+                <div className='col'>Average Device Usage</div>
+                <div className='col'>{getAverageDeviceUsage(CPUValues)}</div>
               </div>
             </div>
           ) : (
@@ -152,6 +172,10 @@ const SidePanel = ({
           {memOpen ? (
             <div className='info' onClick={(e) => e.stopPropagation()}>
               <div className='row'>
+                <div className='col'>Iterations</div>
+                <div className='col'>{MEMValues?.length || 0}</div>
+              </div>
+              <div className='row'>
                 <div className='col'>Current App usage</div>
                 <div className='col'>{currentMEM?.app || 0}</div>
               </div>
@@ -159,19 +183,30 @@ const SidePanel = ({
                 <div className='col'>Current Device usage</div>
                 <div className='col'>{currentMEM?.device || 0}</div>
               </div>
+
               <div className='row'>
-                <div className='col'>Iterations</div>
-                <div className='col'>{currentMEM?.duration || 0}</div>
+                <div className='col'>Average App Usage</div>
+                <div className='col'>{getAverageAppUsage(MEMValues)}</div>
               </div>
               <div className='row'>
-                <div className='col'>Average</div>
-                <div className='col'>89</div>
+                <div className='col'>Average Device Usage</div>
+                <div className='col'>{getAverageDeviceUsage(MEMValues)}</div>
               </div>
             </div>
           ) : (
             <React.Fragment></React.Fragment>
           )}
         </Pane>
+        {!isRecording && isSessionAvailable ? (
+          <Pane>
+            <div className='cloud'>
+              <i class='cloud upload icon'></i>
+              <label>Sync to session</label>
+            </div>
+          </Pane>
+        ) : (
+          <React.Fragment></React.Fragment>
+        )}
       </Panel>
     </SidePanelContainer>
   );
@@ -185,6 +220,11 @@ const mapStateToProps = createStructuredSelector({
   currentFPS: selectCurrentFPS,
   currentCPU: selectCurrentCPU,
   currentMEM: selectCurrentMEM,
+  FPSValues: selectFPSValues,
+  CPUValues: selectCPUValues,
+  MEMValues: selectMEMValues,
+  isRecording: selectIsRecording,
+  isSessionAvailable: selectIsSessionAvailable,
 });
 
 const mapDispatchToProps = (dispatch) => ({

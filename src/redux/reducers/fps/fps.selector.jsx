@@ -39,7 +39,7 @@ export const selectFPSValues = createSelector(
 );
 
 export const selectCurrentFPS = createSelector([selectFPSValues], (arr) =>
-  arr ? arr.at(-1) : { value: 0, duration: 0 }
+  arr ? arr.at(-1) : { value: 0 }
 );
 
 export const selectCPUValues = createSelector(
@@ -78,6 +78,11 @@ export const selectisMEMChecked = createSelector(
 export const selectSession = createSelector(
   [fpsState],
   (state) => state.session
+);
+
+export const selectIsSessionAvailable = createSelector(
+  [selectSession],
+  (session) => (session.sessionId ? true : false)
 );
 
 export const selectSessionTime = createSelector(

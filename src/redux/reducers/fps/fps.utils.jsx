@@ -13,3 +13,26 @@ export const setDeviceProps = (state, deviceProps) => ({
 export const setCheckedValue = (state, mod, value) => {
   return { ...state, [mod]: value };
 };
+
+export const getAverageFPS = (values) => {
+  let x = values.length
+    ? values.reduce((acc, fps) => acc + parseInt(fps.value), 0) / values.length
+    : 0;
+  return x.toFixed(2);
+};
+
+export const getAverageAppUsage = (values) => {
+  let x = values.length
+    ? values.reduce((acc, metric) => acc + parseInt(metric.app), 0) /
+      values.length
+    : 0;
+  return x.toFixed(2);
+};
+
+export const getAverageDeviceUsage = (values) => {
+  let x = values.length
+    ? values.reduce((acc, metric) => acc + parseInt(metric.device), 0) /
+      values.length
+    : 0;
+  return x.toFixed(2);
+};
