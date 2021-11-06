@@ -100,6 +100,7 @@ export const DebugSection = styled.div`
   .debug {
     width: 70%;
     margin-left: 10px;
+    margin-bottom: 5px;
     font-style: italic;
     font-size: small;
     color: #ea4345;
