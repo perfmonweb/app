@@ -72,6 +72,7 @@ const SidePanel = ({
                   e.stopPropagation();
                   setChecked('fpsChecked', e.target.checked);
                 }}
+                disabled={isRecording}
               />
               <label></label>
             </div>
@@ -115,6 +116,7 @@ const SidePanel = ({
                 onChange={(e) => {
                   setChecked('cpuChecked', e.target.checked);
                 }}
+                disabled={isRecording}
               />
               <label></label>
             </div>
@@ -165,6 +167,7 @@ const SidePanel = ({
                   e.stopPropagation();
                   setChecked('memChecked', e.target.checked);
                 }}
+                disabled={isRecording}
               />
               <label></label>
             </div>
