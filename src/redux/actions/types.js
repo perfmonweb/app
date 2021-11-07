@@ -10,3 +10,5 @@ export const SET_CHECKED = 'SET_CHECKED';
 export const SET_SESSION = 'SET_SESSION';
 export const RESET_SESSION = 'RESET_SESSION';
 export const SET_SESSION_TIME = 'SET_SESSION_TIME';
+export const SET_FOLDERS = 'SET_FOLDERS';
+export const SET_PATH = 'SET_PATH';

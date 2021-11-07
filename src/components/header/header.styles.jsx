@@ -1,4 +1,5 @@
-import styled, { keyframes } from 'styled-components';
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
 
 const blue = 'white';
 const red = '#FF3E30';
@@ -93,13 +94,14 @@ export const Status = styled.div`
   }
 `;
 
-export const Item = styled.div`
+export const Item = styled(Link)`
   position: absolute;
   top: 0;
   right: 15px;
   height: 100%;
   width: auto;
   font-size: 2em;
+  text-decoration: none;
   .centered {
     transform: translate(10px, 10px);
     height: 100%;
@@ -117,7 +119,7 @@ export const Item = styled.div`
         color: ${blue};
       }
       &:nth-child(6n + 5) {
-        color: ${green};
+        color: black;
       }
       &:nth-child(6n + 6) {
         color: ${red};
@@ -195,5 +197,38 @@ export const ToolTip = styled.div`
       border-style: solid;
       border-color: transparent black transparent transparent;
     }
+  }
+`;
+
+export const AllSessions = styled(Link)`
+  display: block;
+  position: absolute;
+  top: 28%;
+  right: 5%;
+  transform: translate(-50%, -50%);
+  border-radius: 10px;
+  padding: 4px 5px;
+  font-size: medium;
+  font-weight: bold;
+  letter-spacing: 1.1px;
+  color: whitesmoke;
+  text-decoration: none;
+  label {
+    :hover {
+      cursor: pointer;
+    }
+  }
+  :hover {
+    background: #163c83;
+    color: white;
+    cursor: pointer;
+    box-shadow: inset -1px -1px 2px 2px black;
+    box-shadow: 1px 1px 2px 2px black;
+    top: 28%;
+  }
+
+  :active {
+    transform: scaleY(1.5px);
+    top: 30%;
   }
 `;

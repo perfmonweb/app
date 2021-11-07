@@ -11,6 +11,8 @@ import {
   SET_SESSION,
   TOGGLE_RECORDING,
   SET_SESSION_TIME,
+  SET_FOLDERS,
+  SET_PATH,
 } from './types';
 
 export const setDevice = (deviceStatus) => ({
@@ -71,4 +73,14 @@ export const resetSession = () => ({
 export const setSessionTime = (value) => ({
   type: SET_SESSION_TIME,
   payload: value,
+});
+
+export const setFolders = (val) => ({
+  type: SET_FOLDERS,
+  payload: val,
+});
+
+export const setPath = (val) => ({
+  type: SET_PATH,
+  payload: val,
 });

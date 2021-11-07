@@ -1,6 +1,5 @@
 import { firebaseConfig } from './config';
 import { initializeApp } from 'firebase/app';
-import { getAnalytics } from 'firebase/analytics';
 import { getFirestore } from 'firebase/firestore';
 import {
   collection,
@@ -27,10 +26,10 @@ export const addDocument = async (path, data) => {
 
 // Get the all the exisiting documents from the collection
 export const getAllDocuments = async (path) => {
-  const querySnapshot = await getDocs(collection(db, path));
-  querySnapshot.forEach((doc) => {
-    console.log(`${doc.id} => ${doc.data()}`);
-  });
+  return await getDocs(collection(db, path));
+  // querySnapshot.forEach((doc) => {
+  //   console.log(`${doc.id} => ${doc.data()}`);
+  // });
 };
 
 // Add the data to the new/existing document in collection.
@@ -59,6 +58,19 @@ export const getDocument = async (collectionName, documentName) => {
     // doc.data() will be undefined in this case
     console.log('No such document!');
   }
+};
+
+export const updateDocument = async (
+  collectionName,
+  documentName,
+  subCollectionName,
+  subDocumentName,
+  data
+) => {
+  await setDoc(
+    doc(db, collectionName, documentName, subCollectionName, subDocumentName),
+    data
+  );
 };
 
 export let isDocumentExists = async (collectionName, documentName) => {

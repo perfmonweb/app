@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  AllSessions,
   Item,
   Logo,
   MainContainer,
@@ -42,37 +43,44 @@ class HeaderComponent extends React.Component {
   }
 
   connectSession(event) {
-    const { deviceBoard, devicePlatform } = this.props;
+    const { deviceBoard, devicePlatform, status } = this.props;
     const sessionId = this.state.value + '_' + new Date().getTime();
     const testId = v1();
     const documentName = deviceBoard + '_' + devicePlatform.trim();
-    if (this.props.error) {
+    if (status !== 'device') {
       alert('Please connect to the device using adb');
     } else {
-      isDocumentExists(this.state.value, documentName).then((isExists) => {
-        console.log(isExists);
-        if (isExists) {
-          addDocumentToCollection(this.state.value, documentName, {
-            sessionId: this.state.value,
-            testId,
-          });
-          this.props.setSession({
-            sessionId: this.state.value,
-            testId,
-          });
-        } else {
-          addDocumentToCollection(sessionId, documentName, {
-            sessionId,
-            testId,
-          });
-          this.props.setSession({
-            sessionId,
-            testId,
-          });
-        }
-      });
+      if (this.props.error) {
+        alert('Please connect to the device using adb');
+      } else {
+        isDocumentExists('Google', this.state.value).then((isExists) => {
+          if (isExists) {
+            addDocumentToCollection('Google', this.state.value, {
+              sessionId: this.state.value,
+              testId,
+              deviceId: documentName,
+            });
+            this.props.setSession({
+              sessionId: this.state.value,
+              testId,
+              deviceId: documentName,
+            });
+          } else {
+            addDocumentToCollection('Google', sessionId, {
+              sessionId,
+              testId,
+              deviceId: documentName,
+            });
+            this.props.setSession({
+              sessionId,
+              testId,
+              deviceId: documentName,
+            });
+          }
+        });
 
-      event.preventDefault();
+        event.preventDefault();
+      }
     }
   }
 
@@ -114,8 +122,10 @@ class HeaderComponent extends React.Component {
                     onChange={this.handleChange}
                   />
                   <ToolTip onClick={this.connectSession}>
-                    <i class='sign-in icon' style={{ color: '#179C52' }}></i>
-                    <span class='tooltip'>Connect to the session</span>
+                    <i
+                      className='sign-in icon'
+                      style={{ color: '#179C52' }}></i>
+                    <span className='tooltip'>Connect to the session</span>
                   </ToolTip>
                 </form>
               </div>
@@ -128,7 +138,7 @@ class HeaderComponent extends React.Component {
                 onClick={() => {
                   navigator.clipboard.writeText(session.sessionId);
                 }}>
-                <i class='small copy outline icon'></i>
+                <i className='small copy outline icon'></i>
               </div>
               <div className='ip'>
                 <ToolTip onClick={() => this.props.setSession({})}>
@@ -138,7 +148,10 @@ class HeaderComponent extends React.Component {
               </div>
             </Status>
           )}
-          <Item>
+          <AllSessions to='/allSessions/Google'>
+            <label>All Sessions</label>
+          </AllSessions>
+          <Item to='/'>
             <div className='centered'>
               <span>P</span>
               <span>e</span>

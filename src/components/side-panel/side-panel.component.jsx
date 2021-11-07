@@ -15,6 +15,8 @@ import {
   selectIsRecording,
   selectSession,
   selectIsSessionAvailable,
+  selectPackage,
+  selectDeviceProp,
 } from '../../redux/reducers/fps/fps.selector';
 import { setChecked } from '../../redux/actions';
 import { Pane, Panel, SidePanelContainer } from './side-panel.styles';
@@ -23,6 +25,7 @@ import {
   getAverageDeviceUsage,
   getAverageFPS,
 } from '../../redux/reducers/fps/fps.utils';
+import { updateDocument } from '../../firebase/api';
 
 const SidePanel = ({
   isFPSChecked,
@@ -38,10 +41,34 @@ const SidePanel = ({
   MEMValues,
   isRecording,
   isSessionAvailable,
+  session,
+  packageName,
+  deviceProps,
 }) => {
   const [fpsOpen, setIsFPSOpen] = useState(false);
   const [cpuOpen, setIsCPUOpen] = useState(false);
   const [memOpen, setIsMEMOpen] = useState(false);
+  const [uploadStatus, setUploadStatus] = useState(false);
+  const [msg, setMsg] = useState('');
+
+  const updateDocumentToFirebase = () => {
+    const { sessionId } = session;
+    updateDocument('Google', sessionId, 'Items', packageName, {
+      FPSValues,
+      CPUValues,
+      MEMValues,
+      sessionTime,
+      deviceProps,
+    })
+      .then(() => {
+        setMsg('Sucessfully synced to cloud');
+        setUploadStatus(true);
+      })
+      .catch((err) => {
+        setMsg(err);
+        setUploadStatus(true);
+      });
+  };
   return (
     <SidePanelContainer time={sessionTime}>
       <div className='heading'>
@@ -201,10 +228,13 @@ const SidePanel = ({
           )}
         </Pane>
         {!isRecording && isSessionAvailable ? (
-          <Pane>
+          <Pane
+            onClick={() => {
+              updateDocumentToFirebase();
+            }}>
             <div className='cloud'>
               <i class='cloud upload icon'></i>
-              <label>Sync to session</label>
+              <label>{uploadStatus ? msg : 'Sync to session'}</label>
             </div>
           </Pane>
         ) : (
@@ -228,6 +258,9 @@ const mapStateToProps = createStructuredSelector({
   MEMValues: selectMEMValues,
   isRecording: selectIsRecording,
   isSessionAvailable: selectIsSessionAvailable,
+  session: selectSession,
+  packageName: selectPackage,
+  deviceProps: selectDeviceProp,
 });
 
 const mapDispatchToProps = (dispatch) => ({

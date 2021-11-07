@@ -1,9 +1,6 @@
 import React from 'react';
-import { HashRouter } from 'react-router-dom';
-import BasicComponent from './components/basic/basic.component';
-import CPUComponent from './components/cpu/cpu.component';
-import FPSComponent from './components/fps/fps.component';
-import MemoryComponent from './components/mem/mem.component';
+import { Router, Route, Switch } from 'react-router-dom';
+import history from './history';
 import HeaderComponent from './components/header/header.component';
 import { createStructuredSelector } from 'reselect';
 import {
@@ -12,13 +9,12 @@ import {
   selectisMEMChecked,
 } from './redux/reducers/fps/fps.selector';
 import { connect } from 'react-redux';
-import {
-  AppContainer,
-  MetricContainer,
-  SidePanelContainer,
-  SubContainer,
-} from './App.styles';
-import SidePanel from './components/side-panel/side-panel.component';
+import { AppContainer } from './App.styles';
+import HomeComponent from './components/home/home.component';
+import NoMatchComponent from './components/no-match/no-match.component';
+import DisplayChart from './components/sessions/display-chart/display-chart.component';
+import Games from './components/sessions/games/games.component';
+import Directory from './components/sessions/directory/directory.component';
 
 class App extends React.Component {
   state = {
@@ -27,36 +23,30 @@ class App extends React.Component {
     memOpen: false,
   };
 
+  createElement = (Component, props) => {
+    return <Component key={`${props.route.name}RouteComponent`} {...props} />;
+  };
+
   render() {
-    const { isFPSChecked, isCPUChecked, isMemChecked } = this.props;
-    const { fpsOpen, cpuOpen, memOpen } = this.state;
     return (
-      <HashRouter>
+      <Router history={history}>
         <AppContainer>
           <HeaderComponent></HeaderComponent>
-          <BasicComponent></BasicComponent>
-          <MetricContainer>
-            <SubContainer>
-              {isFPSChecked ? (
-                <FPSComponent></FPSComponent>
-              ) : (
-                <React.Fragment></React.Fragment>
-              )}
-              {isCPUChecked ? (
-                <CPUComponent></CPUComponent>
-              ) : (
-                <React.Fragment></React.Fragment>
-              )}
-              {isMemChecked ? (
-                <MemoryComponent></MemoryComponent>
-              ) : (
-                <React.Fragment></React.Fragment>
-              )}
-            </SubContainer>
-            <SidePanel />
-          </MetricContainer>
+          <div>
+            <Switch>
+              <Route path='/' exact component={HomeComponent} />
+              <Route path='/allSessions/:a' exact component={Directory} />
+              <Route path='/allSessions/:a/:b' exact component={Games} />
+              <Route
+                path='/allSessions/:a/:b/:c'
+                exact
+                component={DisplayChart}
+              />
+              <Route path='*' component={NoMatchComponent} />
+            </Switch>
+          </div>
         </AppContainer>
-      </HashRouter>
+      </Router>
     );
   }
 }
