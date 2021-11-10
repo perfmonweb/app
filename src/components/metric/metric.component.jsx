@@ -26,8 +26,8 @@ class MetricComponent extends React.Component {
           ) : (
             <div className='display'>
               <div className='centered'>
-                {this.props.name.map((a) => (
-                  <span>{a}</span>
+                {this.props.name.map((a, idx) => (
+                  <span key={idx}>{a}</span>
                 ))}
               </div>
             </div>

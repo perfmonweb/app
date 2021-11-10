@@ -45,6 +45,9 @@ function BasicComponent({
   resetValues,
   selectError,
   setSessionTime,
+  selectisFPSChecked,
+  selectisCPUChecked,
+  selectisMEMChecked,
 }) {
   const [packages, setPackages] = useState([]);
   const [term, setTerm] = useState('');
@@ -126,9 +129,21 @@ function BasicComponent({
   }`;
 
   const startRecording = () => {
-    toggleRecording(true);
-    setError('');
-    setStartTimer(true);
+    if (!selectisFPSChecked && !selectisCPUChecked && !selectisMEMChecked)
+      setError('Please select metrics to measure from Analytics panel');
+    else {
+      if (!selectPackage) setError('Please select Package Name.');
+      else if (!term) {
+        setTerm(selectPackage);
+        toggleRecording(true);
+        setError('');
+        setStartTimer(true);
+      } else {
+        toggleRecording(true);
+        setError('');
+        setStartTimer(true);
+      }
+    }
   };
 
   const stopRecording = () => {

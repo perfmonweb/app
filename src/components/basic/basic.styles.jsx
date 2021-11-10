@@ -15,7 +15,10 @@ export const StyledInputContainer = styled.div`
   margin: auto;
   border-radius: 10px;
   border: 1px solid black;
-  background: white;
+  background: #eff5ff;
+  :hover {
+    background: white;
+  }
   .dropdown {
     position: absolute;
     top: 10px;
@@ -35,7 +38,10 @@ export const StyledInput = styled.input`
   border: 0;
   height: 100%;
   -webkit-appearance: none;
-
+  background: #eff5ff;
+  :hover {
+    background: white;
+  }
   :focus {
     border: 0;
     outline: 0;

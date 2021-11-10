@@ -18,7 +18,7 @@ import {
   selectSession,
   selectStatus,
 } from '../../redux/reducers/fps/fps.selector';
-import { setDevice, setSession } from '../../redux/actions';
+import { setDevice, setError, setSession } from '../../redux/actions';
 import { v1 } from 'uuid';
 import { addDocumentToCollection, isDocumentExists } from '../../firebase/api';
 
@@ -148,7 +148,9 @@ class HeaderComponent extends React.Component {
               </div>
             </Status>
           )}
-          <AllSessions to='/allSessions/Google'>
+          <AllSessions
+            to='/allSessions/Google'
+            onClick={() => this.props.setError('')}>
             <label>All Sessions</label>
           </AllSessions>
           <Item to='/'>
@@ -180,6 +182,7 @@ const mapStateToProps = createStructuredSelector({
 const mapDispatchToProps = (dispatch) => ({
   setDevice: (val) => dispatch(setDevice(val)),
   setSession: (val) => dispatch(setSession(val)),
+  setError: (val) => dispatch(setError(val)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(HeaderComponent);
