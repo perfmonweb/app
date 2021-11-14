@@ -12,7 +12,7 @@ import {
 } from 'firebase/firestore';
 
 initializeApp(firebaseConfig);
-const db = getFirestore();
+export const db = getFirestore();
 
 // Add the document to the collection
 export const addDocument = async (path, data) => {
@@ -26,21 +26,25 @@ export const addDocument = async (path, data) => {
 
 // Get the all the exisiting documents from the collection
 export const getAllDocuments = async (path) => {
-  return await getDocs(collection(db, path));
+  return await getDocs(collection(db, ...path));
   // querySnapshot.forEach((doc) => {
   //   console.log(`${doc.id} => ${doc.data()}`);
   // });
 };
 
+export const getAllCollections = async (path) => {
+  // getDoc(db, ...path);
+};
+
 // Add the data to the new/existing document in collection.
 //If the document does not exist, it will be created. If the document does
 // exist, its contents will be overwritten with the newly provided data.
-export const addDocumentToCollection = async (
-  collectionName,
-  documentName,
-  data
-) => {
-  await setDoc(doc(db, collectionName, documentName), data);
+export const addDocumentToCollection = async (path, data) => {
+  let pathString = '';
+  if (path) {
+    pathString = path.reduce((acc, item) => acc + '/' + item);
+  }
+  return await setDoc(doc(db, pathString), data);
 };
 
 // Delete document from the collection
@@ -48,33 +52,22 @@ export const deleteDocument = async (collectionName, documentName) => {
   await deleteDoc(doc(db, collectionName, documentName));
 };
 
-export const getDocument = async (collectionName, documentName) => {
-  const docRef = doc(db, collectionName, documentName);
-  const docSnap = await getDoc(docRef);
-
-  if (docSnap.exists()) {
-    console.log('Document data:', docSnap.data());
-  } else {
-    // doc.data() will be undefined in this case
-    console.log('No such document!');
-  }
+export const getDocument = async (path) => {
+  const docRef = doc(db, ...path);
+  return await getDoc(docRef);
 };
 
-export const updateDocument = async (
-  collectionName,
-  documentName,
-  subCollectionName,
-  subDocumentName,
-  data
-) => {
-  await setDoc(
-    doc(db, collectionName, documentName, subCollectionName, subDocumentName),
-    data
-  );
+export const updateDocument = async (path, data) => {
+  await setDoc(doc(db, ...path), data);
 };
 
-export let isDocumentExists = async (collectionName, documentName) => {
-  const docRef = doc(db, collectionName, documentName);
+export let isDocumentExists = async (path) => {
+  const docRef = doc(db, ...path);
   const docSnap = await getDoc(docRef);
   return docSnap.exists();
+};
+
+export let isCollectionExists = async (path) => {
+  const collectionRef = collection(db, ...path);
+  console.log(collectionRef);
 };

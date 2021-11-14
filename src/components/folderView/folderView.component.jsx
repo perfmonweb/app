@@ -2,15 +2,19 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import Folder from '../folder/folder.component';
-import { selectFolders } from '../../redux/reducers/directory/directory.selector';
+import {
+  selectFolders,
+  selectPath,
+} from '../../redux/reducers/directory/directory.selector';
 import { Directory, HeadingBar } from './folderView.styles';
 import { setPath } from '../../redux/actions';
 import { Link } from 'react-router-dom';
 
 class FolderView extends Component {
   render() {
-    const { folders, path, title } = this.props;
-    console.log(path);
+    const { folders, level, title, path } = this.props;
+    const pathString = `${parseInt(level) + 1}/${path.slice(1).join('/')}`;
+
     return (
       <div>
         <HeadingBar>
@@ -18,7 +22,10 @@ class FolderView extends Component {
         </HeadingBar>
         <Directory>
           {folders.map((folder, idx) => (
-            <Link className='folder' to={`${path}/${folder.id}`} key={idx}>
+            <Link
+              className='folder'
+              to={`/app/${pathString}/${folder.id}`}
+              key={idx}>
               <Folder name={folder.id} />
             </Link>
           ))}
@@ -30,6 +37,7 @@ class FolderView extends Component {
 
 const mapStateToProps = createStructuredSelector({
   folders: selectFolders,
+  path: selectPath,
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -2,7 +2,7 @@ import { SET_FOLDERS, SET_PATH } from '../../actions/types';
 
 const INITIAL_STATE = {
   folders: [],
-  selectedPath: 'Google',
+  selectedPath: '',
 };
 
 const directoryReducer = (state = INITIAL_STATE, action) => {
@@ -12,7 +12,7 @@ const directoryReducer = (state = INITIAL_STATE, action) => {
     case SET_PATH:
       return {
         ...state,
-        selectedPath: state.selectedPath + '/' + action.payload + '/Items',
+        selectedPath: action.payload,
       };
     default:
       return state;

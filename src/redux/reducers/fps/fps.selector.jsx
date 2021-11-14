@@ -89,3 +89,8 @@ export const selectSessionTime = createSelector(
   [fpsState],
   (state) => state.sessionTime
 );
+
+export const selectDeviceId = createSelector(
+  [selectSession],
+  (state) => state.deviceId
+);

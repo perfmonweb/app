@@ -13,9 +13,7 @@ import { connect } from 'react-redux';
 import { AnimatedPet, AppContainer } from './App.styles';
 import HomeComponent from './components/home/home.component';
 import NoMatchComponent from './components/no-match/no-match.component';
-import DisplayChart from './components/sessions/display-chart/display-chart.component';
-import Games from './components/sessions/games/games.component';
-import Directory from './components/sessions/directory/directory.component';
+import Single from './components/sessions/singledir/single.component';
 
 class App extends React.Component {
   state = {
@@ -24,42 +22,46 @@ class App extends React.Component {
     memOpen: false,
   };
 
-  createElement = (Component, props) => {
-    return <Component key={`${props.route.name}RouteComponent`} {...props} />;
-  };
-
   render() {
+    const { match } = this.props;
     return (
-      <Router history={history}>
-        <AppContainer>
-          <HeaderComponent></HeaderComponent>
-          <div>
-            <Switch>
-              <Route path='/' exact component={HomeComponent} />
-              <Route path='/allSessions/:a' exact component={Directory} />
-              <Route path='/allSessions/:a/:b' exact component={Games} />
-              <Route
-                path='/allSessions/:a/:b/:c'
-                exact
-                component={DisplayChart}
-              />
-              <Route path='*' component={NoMatchComponent} />
-            </Switch>
-          </div>
-          <AnimatedPet length={this.props.displayError.length}>
-            <div className='pet'>
-              <div className='icon'>
-                <i class='rocketchat icon'></i>
-              </div>
-              {this.props.displayError ? (
-                <label className='label1'>{this.props.displayError}</label>
-              ) : (
-                <React.Fragment></React.Fragment>
+      <AppContainer>
+        {/* <Route path='/welcome' exact component={Welcome} /> */}
+        <HeaderComponent></HeaderComponent>
+        <div>
+          <Switch>
+            <Route exact path={`${match.path}`} component={HomeComponent} />
+            <Route
+              path={[
+                `${match.path}/:level/:l0`,
+                `${match.path}/:level/:l0/:l1`,
+                `${match.path}/:level/:l0/:l1/:l2`,
+                `${match.path}/:level/:l0/:l1/:l2/:l3`,
+                `${match.path}/:level/:l0/:l1/:l2/:l3/:l4`,
+                `${match.path}/:level/:l0/:l1/:l2/:l3/:l4/:l5`,
+                `${match.path}/:level/:l0/:l1/:l2/:l3/:l4/:l5/:l6`,
+              ]}
+              exact
+              component={(props) => (
+                <Single {...props} key={window.location.pathname} />
               )}
+            />
+            <Route path='*' component={NoMatchComponent} />
+          </Switch>
+        </div>
+        <AnimatedPet length={this.props.displayError.length}>
+          <div className='pet'>
+            <div className='icon'>
+              <i class='rocketchat icon'></i>
             </div>
-          </AnimatedPet>
-        </AppContainer>
-      </Router>
+            {this.props.displayError ? (
+              <label className='label1'>{this.props.displayError}</label>
+            ) : (
+              <React.Fragment></React.Fragment>
+            )}
+          </div>
+        </AnimatedPet>
+      </AppContainer>
     );
   }
 }

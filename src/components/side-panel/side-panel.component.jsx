@@ -52,14 +52,18 @@ const SidePanel = ({
   const [msg, setMsg] = useState('');
 
   const updateDocumentToFirebase = () => {
-    const { sessionId } = session;
-    updateDocument('Google', sessionId, 'Items', packageName, {
+    const { sessionId, deviceId } = session;
+    let data = {
       FPSValues,
       CPUValues,
       MEMValues,
       sessionTime,
       deviceProps,
-    })
+    };
+    updateDocument(
+      ['Google', sessionId, 'Devices', deviceId, 'Games', packageName],
+      data
+    )
       .then(() => {
         setMsg('Sucessfully synced to cloud');
         setUploadStatus(true);

@@ -44,32 +44,46 @@ class HeaderComponent extends React.Component {
 
   connectSession(event) {
     const { deviceBoard, devicePlatform, status } = this.props;
-    const sessionId = this.state.value + '_' + new Date().getTime();
+    const inputProvided = this.state.value.trim();
+    const sessionId = `${inputProvided}_${new Date().getTime()}`.trim();
     const testId = v1();
-    const documentName = deviceBoard + '_' + devicePlatform.trim();
+    const documentName =
+      `${deviceBoard.trim()}_${devicePlatform.trim()}`.trim();
     if (status !== 'device') {
       alert('Please connect to the device using adb');
     } else {
       if (this.props.error) {
         alert('Please connect to the device using adb');
       } else {
-        isDocumentExists('Google', this.state.value).then((isExists) => {
+        isDocumentExists(['Google', inputProvided]).then((isExists) => {
+          // if the document exists, add/overwrite the data.
           if (isExists) {
-            addDocumentToCollection('Google', this.state.value, {
-              sessionId: this.state.value,
-              testId,
-              deviceId: documentName,
-            });
+            // Adding the device info to the session.
+            addDocumentToCollection(
+              ['Google', inputProvided, 'Devices', documentName],
+              {
+                sessionId: inputProvided,
+                testId,
+                deviceId: documentName,
+              }
+            );
             this.props.setSession({
-              sessionId: this.state.value,
+              sessionId: inputProvided,
               testId,
               deviceId: documentName,
             });
           } else {
-            addDocumentToCollection('Google', sessionId, {
+            // Creating a new session with the device info
+            addDocumentToCollection(['Google', sessionId], {
               sessionId,
               testId,
-              deviceId: documentName,
+            }).then(() => {
+              addDocumentToCollection(
+                ['Google', sessionId, 'Devices', documentName],
+                {
+                  deviceId: documentName,
+                }
+              );
             });
             this.props.setSession({
               sessionId,
@@ -149,11 +163,11 @@ class HeaderComponent extends React.Component {
             </Status>
           )}
           <AllSessions
-            to='/allSessions/Google'
+            to='/app/0/Google'
             onClick={() => this.props.setError('')}>
             <label>All Sessions</label>
           </AllSessions>
-          <Item to='/'>
+          <Item to='/app'>
             <div className='centered'>
               <span>P</span>
               <span>e</span>
