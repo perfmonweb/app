@@ -24,7 +24,7 @@ class FolderView extends Component {
           {folders.map((folder, idx) => (
             <Link
               className='folder'
-              to={`/app/${pathString}/${folder.id}`}
+              to={`/web/${pathString}/${folder.id}`}
               key={idx}>
               <Folder name={folder.id} />
             </Link>

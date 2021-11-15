@@ -17,7 +17,7 @@ ReactDOM.render(
         <div>
           <Switch>
             <Route exact path='/' component={Welcome} />
-            <Route path='/app' component={App} />
+            <Route path='/web' component={App} />
           </Switch>
         </div>
         {/* </PersistGate> */}

@@ -1,7 +1,7 @@
 {
   "name": "perf-mon-with-react",
-  "homepage": "https://www.perfmonweb.github.io/app",
-  "version": "0.1.0",
+  "homepage": "https://perfmonweb.github.io/app",
+  "version": "0.2.0",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.4",

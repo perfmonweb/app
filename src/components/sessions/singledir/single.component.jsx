@@ -88,7 +88,7 @@ class Single extends React.Component {
                 return (
                   <Link
                     className='path-child ui label tag teal'
-                    to={`/app/0/Google`}>
+                    to={`/web/0/Google`}>
                     sessions
                   </Link>
                 );
@@ -102,7 +102,7 @@ class Single extends React.Component {
                 return (
                   <Link
                     className='path-child ui label tag teal'
-                    to={`/app/${uPath}`}>
+                    to={`/web/${uPath}`}>
                     {path}
                   </Link>
                 );

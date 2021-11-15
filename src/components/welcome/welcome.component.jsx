@@ -8,7 +8,7 @@ const Welcome = () => {
       <div className='help-box button'>
         <label>How it works?</label>
       </div>
-      <Link className='app button' to='/app'>
+      <Link className='app button' to='/web'>
         <i class='play circle icon black'></i>
         <label>Launch App</label>
       </Link>

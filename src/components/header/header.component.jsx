@@ -163,11 +163,11 @@ class HeaderComponent extends React.Component {
             </Status>
           )}
           <AllSessions
-            to='/app/0/Google'
+            to='/web/0/Google'
             onClick={() => this.props.setError('')}>
             <label>All Sessions</label>
           </AllSessions>
-          <Item to='/app'>
+          <Item to='/web'>
             <div className='centered'>
               <span>P</span>
               <span>e</span>
