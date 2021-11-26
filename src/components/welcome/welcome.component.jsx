@@ -1,6 +1,7 @@
 import './welcome.styles.scss';
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { signInWithGoogle } from '../../firebase/api';
 
 const Welcome = () => {
   return (
@@ -12,6 +13,10 @@ const Welcome = () => {
         <i class='play circle icon black'></i>
         <label>Launch App</label>
       </Link>
+      <button className='sign-in button' onClick={signInWithGoogle}>
+        <i class='circle google icon'></i>
+        <label>Login</label>
+      </button>
       <div className='header'>
         <div className='logo-box'>
           <div className='stopWatch'>

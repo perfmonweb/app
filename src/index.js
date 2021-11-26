@@ -6,13 +6,13 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { store, persistor } from './redux/store';
 import App from './App';
 import history from './history';
-import { Router, Route, Switch } from 'react-router-dom';
+import { Router, Route, Switch, HashRouter } from 'react-router-dom';
 import Welcome from './components/welcome/welcome.component';
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <Router history={history}>
+      <HashRouter basename='/app/' history={history}>
         {/* <PersistGate persistor={persistor}> */}
         <div>
           <Switch>
@@ -21,7 +21,7 @@ ReactDOM.render(
           </Switch>
         </div>
         {/* </PersistGate> */}
-      </Router>
+      </HashRouter>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')

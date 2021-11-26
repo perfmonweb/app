@@ -9,18 +9,18 @@ const green = '#black';
 export const MainContainer = styled.div`
   display: flex;
   position: relative;
-  height: 40px;
-  background: #3b7aee;
+  height: 16vh;
+  width: 100vw;
+  background: #2d5073;
   padding-bottom: 5%;
 `;
 
 export const Logo = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
+  position: relative;
   height: 100%;
   width: auto;
   font-size: 2em;
+  flex-grow: 1;
   .centered {
     transform: translate(10px, 10px);
     height: 100%;
@@ -50,58 +50,63 @@ export const Logo = styled.div`
 
 export const Status = styled.div`
   display: flex;
-  position: absolute;
-  top: 30%;
-  left: 30%;
-  transform: translate(-50%, -50%);
-  border: 1px solid ${(props) => (props.light === 'device' ? 'green' : 'red')};
-  color: ${(props) => (props.light === 'device' ? 'green' : 'red')};
-  border-radius: 10px;
-  padding: 2px 4px;
-  align-items: center;
+  position: relative;
+  flex-grow: 3;
   justify-content: center;
-  background: white;
-  .st {
-  }
-  .light {
-    border: 1px solid ${(props) => (props.light === 'device' ? 'green' : 'red')};
-    border-radius: 50%;
-    background: ${(props) => (props.light === 'device' ? 'green' : red)};
-    margin: 0 5px;
-    height: 10px;
-    width: 10px;
-    box-shadow: 0px 0px 10px 4px
-      ${(props) => (props.light === 'device' ? 'green' : red)};
-  }
-
-  .press {
-    /* border: 0.5px solid black; */
-    border-radius: 5px;
-    margin: 0 5px;
-    box-shadow: -1px 1px 1px 1px #888888;
-
-    :hover {
-      cursor: pointer;
-      transform: translateY(-1px);
-      box-shadow: -1px 2px 1px 1px #888888;
+  .perimeter {
+    padding: 8px 10px;
+    display: flex;
+    border-bottom: 1px solid
+      ${(props) => (props.light === 'device' ? 'green' : 'red')};
+    /* color: ${(props) => (props.light === 'device' ? 'green' : 'red')}; */
+    color: white;
+    border-radius: 10px;
+    align-self: center;
+    .st {
+    }
+    .light {
+      border: 1px solid
+        ${(props) => (props.light === 'device' ? 'green' : 'red')};
+      border-radius: 50%;
+      background: ${(props) => (props.light === 'device' ? 'green' : red)};
+      margin: 0 5px;
+      height: 10px;
+      width: 10px;
+      box-shadow: 0px 0px 10px 4px
+        ${(props) => (props.light === 'device' ? 'green' : red)};
+      align-self: center;
     }
 
-    :active {
-      cursor: pointer;
-      transform: translateY(1px);
-      box-shadow: -1px 0px 1px 0px #888888;
+    .press {
+      /* border: 0.5px solid black; */
+      border-radius: 5px;
+      margin: 0 5px;
+      box-shadow: -1px 1px 1px 1px #888888;
+
+      :hover {
+        cursor: pointer;
+        transform: translateY(-1px);
+        box-shadow: -1px 2px 1px 1px #888888;
+      }
+
+      :active {
+        cursor: pointer;
+        transform: translateY(1px);
+        box-shadow: -1px 0px 1px 0px #888888;
+      }
     }
   }
 `;
 
 export const Item = styled(Link)`
-  position: absolute;
-  top: 0;
-  right: 15px;
+  position: relative;
   height: 100%;
+  flex-grow: 1;
   width: auto;
   font-size: 2em;
   text-decoration: none;
+  display: flex;
+  justify-content: center;
   .centered {
     transform: translate(10px, 10px);
     height: 100%;
@@ -132,38 +137,76 @@ export const Item = styled(Link)`
 `;
 
 export const SessionTab = styled.div`
-  position: absolute;
-  top: 30%;
-  left: 70%;
-  transform: translate(-50%, -50%);
-  border: 1px solid black;
-  border-radius: 10px;
-  padding: 2px 4px;
+  position: relative;
+  flex-grow: 2;
+  display: flex;
   align-items: center;
   justify-content: center;
-  background: white;
-  form > input {
-    -webkit-appearance: none;
-    border: 0;
-    :focus {
+  .perimeter {
+    align-self: center;
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    height: 70%;
+    width: 80%;
+    transition: all 0.3s;
+    .perimeter-input {
+      border-radius: 20px;
+      -webkit-appearance: none;
+      width: 90%;
+      height: 70%;
+      margin: 0;
       border: 0;
       outline: 0;
+      padding: 2px 10px;
+      transition: all 0.5s;
     }
-  }
+    .submit-session {
+      position: absolute;
+      transition: all 0.5s;
+      top: 15px;
+      right: 60px;
+      height: 25px;
+      width: 30px;
+      i {
+        position: absolute;
+        top: 0;
+        left: 0;
+        :hover {
+          cursor: pointer;
+        }
+      }
+    }
 
-  form {
-    display: flex;
-    .button {
+    :focus-within {
+      border: 0;
+      outline: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 10px;
+      .perimeter-input {
+        box-shadow: inset 1px 1px 10px green;
+      }
+      .submit-session {
+        top: 12px;
+        right: 20px;
+      }
     }
   }
 `;
 
 export const ToolTip = styled.div`
+  position: relative;
   background: none;
-  padding: 0 3px;
+  i {
+    position: absolute;
+    width: 100%;
+    height: 20px;
+    left: 0;
+    top: 0;
+  }
   :hover {
     cursor: pointer;
-    transform: translateY(-1px);
     .tooltip {
       visibility: visible;
     }
@@ -171,7 +214,6 @@ export const ToolTip = styled.div`
 
   :active {
     cursor: pointer;
-    transform: translateY(1px);
   }
   .tooltip {
     visibility: hidden;
@@ -182,8 +224,6 @@ export const ToolTip = styled.div`
     padding: 5px 0;
     border-radius: 6px;
     font-size: smaller;
-
-    /* Position the tooltip text - see examples below! */
     position: absolute;
     z-index: 7;
 
@@ -201,30 +241,31 @@ export const ToolTip = styled.div`
 `;
 
 export const AllSessions = styled(Link)`
-  display: block;
-  position: absolute;
-  top: 28%;
-  right: 5%;
-  transform: translate(-50%, -50%);
+  display: flex;
+  position: relative;
+  justify-content: center;
+  text-align: center;
+  border-bottom: 1px solid pink;
+  flex-grow: 1;
   border-radius: 10px;
-  padding: 4px 5px;
   font-size: medium;
   font-weight: bold;
   letter-spacing: 1.1px;
   color: whitesmoke;
   text-decoration: none;
   label {
+    align-self: center;
     :hover {
       cursor: pointer;
     }
   }
   :hover {
-    background: #163c83;
+    background: #2d5073;
     color: white;
     cursor: pointer;
     box-shadow: inset -1px -1px 2px 2px black;
     box-shadow: 1px 1px 2px 2px black;
-    top: 28%;
+    top: 18%;
   }
 
   :active {

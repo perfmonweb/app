@@ -114,34 +114,32 @@ class HeaderComponent extends React.Component {
             </div>
           </Logo>
           <Status light={status}>
-            <div className='st'>
-              {status === 'device'
-                ? 'connected'
-                : status === ''
-                ? 'No device connected'
-                : status}
+            <div className='perimeter'>
+              <div className='st'>
+                {status === 'device'
+                  ? 'connected'
+                  : status === ''
+                  ? 'No device connected'
+                  : status}
+              </div>
+              <div className='light'></div>
+              <div className='ip'>{ip}</div>
             </div>
-            <div className='light'></div>
-            <div className='ip'>{ip}</div>
           </Status>
           {!session.sessionId ? (
             <SessionTab>
-              <div className='.input'>
-                <form>
-                  <input
-                    type='text'
-                    name='session'
-                    placeholder='Session Name (Opt.)'
-                    value={this.state.value}
-                    onChange={this.handleChange}
-                  />
-                  <ToolTip onClick={this.connectSession}>
-                    <i
-                      className='sign-in icon'
-                      style={{ color: '#179C52' }}></i>
-                    <span className='tooltip'>Connect to the session</span>
-                  </ToolTip>
-                </form>
+              <div className='perimeter'>
+                <input
+                  className='perimeter-input'
+                  type='text'
+                  name='session'
+                  placeholder='Session Name (Opt.)'
+                  value={this.state.value}
+                  onChange={this.handleChange}
+                />
+                <div className='submit-session' onClick={this.connectSession}>
+                  <i className='sign-in icon' style={{ color: '#179C52' }}></i>
+                </div>
               </div>
             </SessionTab>
           ) : (

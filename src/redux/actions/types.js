@@ -12,3 +12,4 @@ export const RESET_SESSION = 'RESET_SESSION';
 export const SET_SESSION_TIME = 'SET_SESSION_TIME';
 export const SET_FOLDERS = 'SET_FOLDERS';
 export const SET_PATH = 'SET_PATH';
+export const SET_CURRENT_USER = 'SET_CURRENT_USER';

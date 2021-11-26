@@ -11,6 +11,11 @@ body {
   font-family:'Product Sans';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-image:
+  repeating-linear-gradient(#d2d2d2 0 1px, transparent 1px 100%),
+  repeating-linear-gradient(90deg, #d2d2d2 0 1px, transparent 1px 100%);
+  background-size: 100px 60px;
+  background-attachment: fixed;
 }
 
 code {

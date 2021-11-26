@@ -180,7 +180,6 @@ function BasicComponent({
       useGrouping: false,
     });
   };
-
   return (
     <MainContainer>
       <StyledInputContainer>
@@ -211,70 +210,70 @@ function BasicComponent({
           ))}
         </StyledDropDownElements>
       )}
-      <Details>
-        <div className='labels'>
-          {selectDeviceName !== 'undefined' ? (
-            <div className='ui circular label'>{selectDeviceName}</div>
-          ) : (
-            <div className='ui circular label'>Device Name</div>
-          )}
-          {selectDevicePlatform !== 'undefined' ? (
-            <div className='ui circular label'>{selectDevicePlatform}</div>
-          ) : (
-            <div className='ui circular label'>Device Platform</div>
-          )}
-          <div className='ui circular label'>
-            {selectPackage || 'Package Name'}
-          </div>
-          {selectDeviceBoard !== 'undefined' ? (
-            <div className='ui circular label'>{selectDeviceBoard}</div>
-          ) : (
-            <div className='ui circular label'>Device Board</div>
-          )}
-        </div>
-      </Details>
-      <DebugSection>
-        <div className='debug'>
-          <label>Debug: </label>
-          <label>
-            {selectError
-              ? selectError
-              : selectStatus
-              ? selectPackage
-                ? ''
-                : 'Please select package name.'
-              : 'Please check your adb connection.'}
-          </label>
-        </div>
-        <div className='buttons'>
-          {!selectIsRecording ? (
-            time ? (
-              <button
-                className={startButtonClassName}
-                onClick={() => resetRecording()}>
-                Reset
-              </button>
+      <div className='details'>
+        <Details>
+          <div className='labels'>
+            {selectDeviceName !== 'undefined' ? (
+              <div className='ui circular label'>{selectDeviceName}</div>
             ) : (
-              <button
-                className={startButtonClassName}
-                onClick={() => startRecording()}>
-                Start Recording
-              </button>
-            )
-          ) : (
-            <button className='ui positive button disabled'>
-              <span className='minutes'>{getMinutes(time)}m</span>
-              <span className='seconds'>{trimSeconds(time)}s</span>
-              <span className='ms'>{getMilliSeconds(time)}</span>
+              <div className='ui circular label'>Device Name</div>
+            )}
+            {selectDevicePlatform !== 'undefined' ? (
+              <div className='ui circular label'>{selectDevicePlatform}</div>
+            ) : (
+              <div className='ui circular label'>Device Platform</div>
+            )}
+            <div className='ui circular label'>
+              {selectPackage || 'Package Name'}
+            </div>
+            {selectDeviceBoard !== 'undefined' ? (
+              <div className='ui circular label'>{selectDeviceBoard}</div>
+            ) : (
+              <div className='ui circular label'>Device Board</div>
+            )}
+          </div>
+        </Details>
+        <DebugSection>
+          <div className='debug'>
+            <label>Debug: </label>
+            <label>
+              {selectError
+                ? selectError
+                : selectStatus
+                ? selectPackage
+                  ? ''
+                  : 'Please select package name.'
+                : 'Please check your adb connection.'}
+            </label>
+          </div>
+        </DebugSection>
+      </div>
+      <div className='buttons'>
+        {!selectIsRecording ? (
+          time ? (
+            <button
+              className={startButtonClassName}
+              onClick={() => resetRecording()}>
+              Reset
             </button>
-          )}
-          <button
-            className={stopButtonClassName}
-            onClick={() => stopRecording()}>
-            Stop Recording
+          ) : (
+            <button
+              className={startButtonClassName}
+              onClick={() => startRecording()}>
+              Start Recording
+            </button>
+          )
+        ) : (
+          <button className='ui positive button disabled'>
+            <span className='minutes'>{getMinutes(time)}m</span>
+            <span className='seconds'>{trimSeconds(time)}s</span>
+            <span className='ms'>{getMilliSeconds(time)}</span>
           </button>
-        </div>
-      </DebugSection>
+        )}
+        <button className={stopButtonClassName} onClick={() => stopRecording()}>
+          Stop Recording
+        </button>
+      </div>
     </MainContainer>
   );
 }

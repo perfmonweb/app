@@ -10,8 +10,11 @@ import {
   getDoc,
   deleteDoc,
 } from 'firebase/firestore';
+import { getAuth, GoogleAuthProvider, signInWithPopup } from '@firebase/auth';
 
 initializeApp(firebaseConfig);
+
+export const auth = getAuth();
 export const db = getFirestore();
 
 // Add the document to the collection
@@ -23,6 +26,32 @@ export const addDocument = async (path, data) => {
     console.error('Error adding document: ', e);
   }
 };
+
+export const createUserProfileDocument = async (userAuth, additionalData) => {
+  if (!userAuth) return;
+  const userRef = doc(db, 'users', userAuth.uid);
+  const snapshot = await getDoc(userRef);
+  if (!snapshot.exists()) {
+    const { displayName, email } = userAuth;
+    const createdAt = new Date();
+
+    try {
+      await setDoc(doc(db, 'users', userAuth.uid), {
+        displayName,
+        email,
+        createdAt,
+        ...additionalData,
+      });
+    } catch (err) {
+      console.log('Error creating user', err.message);
+    }
+  }
+  return userRef;
+};
+
+const provider = new GoogleAuthProvider();
+provider.setCustomParameters({ prompt: 'select_account' });
+export const signInWithGoogle = () => signInWithPopup(auth, provider);
 
 // Get the all the exisiting documents from the collection
 export const getAllDocuments = async (path) => {

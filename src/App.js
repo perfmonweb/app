@@ -14,13 +14,43 @@ import { AnimatedPet, AppContainer } from './App.styles';
 import HomeComponent from './components/home/home.component';
 import NoMatchComponent from './components/no-match/no-match.component';
 import Single from './components/sessions/singledir/single.component';
+import Login from './components/login/login.component';
+import { auth, createUserProfileDocument } from './firebase/api';
+import { onSnapshot } from '@firebase/firestore';
+import { setCurrentUser } from './redux/actions';
+import { selectCurrentUser } from './redux/reducers/user/user.selector';
 
 class App extends React.Component {
+  unSubscribefromAuth = null;
   state = {
     fpsOpen: false,
     cpuOpen: false,
     memOpen: false,
   };
+
+  componentDidMount() {
+    const { setCurrentUser } = this.props;
+    console.log(this.props);
+    this.unSubscribefromAuth = auth.onAuthStateChanged((userAuth) => {
+      if (userAuth) {
+        const userRef = createUserProfileDocument(userAuth);
+        userRef.then((ref) => {
+          onSnapshot(ref, (doc) => {
+            const { id, ...data } = doc.data();
+            setCurrentUser({
+              id: ref.id,
+              ...data,
+            });
+          });
+        });
+      }
+      setCurrentUser(userAuth);
+    });
+  }
+
+  componentWillUnmount() {
+    this.unSubscribefromAuth();
+  }
 
   render() {
     const { match } = this.props;
@@ -46,6 +76,7 @@ class App extends React.Component {
                 <Single {...props} key={window.location.pathname} />
               )}
             />
+            <Route path='/singin' component={Login} />
             <Route path='*' component={NoMatchComponent} />
           </Switch>
         </div>
@@ -71,6 +102,11 @@ const mapStateToProps = createStructuredSelector({
   isCPUChecked: selectisCPUChecked,
   isMemChecked: selectisMEMChecked,
   displayError: selectError,
+  currentUser: selectCurrentUser,
 });
 
-export default connect(mapStateToProps)(App);
+const mapDispatchToProps = (dispatch) => ({
+  setCurrentUser: (user) => dispatch(setCurrentUser(user)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

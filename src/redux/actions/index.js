@@ -13,6 +13,7 @@ import {
   SET_SESSION_TIME,
   SET_FOLDERS,
   SET_PATH,
+  SET_CURRENT_USER,
 } from './types';
 
 export const setDevice = (deviceStatus) => ({
@@ -84,3 +85,10 @@ export const setPath = (val) => ({
   type: SET_PATH,
   payload: val,
 });
+
+export const setCurrentUser = (user) => {
+  return {
+    type: SET_CURRENT_USER,
+    payload: user,
+  };
+};

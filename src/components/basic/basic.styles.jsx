@@ -1,10 +1,37 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
 export const MainContainer = styled.div`
-  background: #3b7aee;
+  background: #2d5073;
   width: 100vw;
+  height: 18vh;
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
+  .details {
+    display: flex;
+    width: 100%;
+  }
+  .buttons {
+    position: relative;
+    display: flex;
+    width: 100%;
+    height: 40%;
+    justify-content: flex-end;
+    .button {
+      position: relative;
+      margin: 10px;
+      .minutes {
+        font-size: 1.1em;
+        color: white;
+      }
+      .seconds {
+        font-size: 1.1em;
+        margin: 0 5px;
+      }
+      .ms {
+        font-size: 0.7em;
+      }
+    }
+  }
 `;
 
 export const StyledInputContainer = styled.div`
@@ -68,66 +95,63 @@ export const StyledDropDownElements = styled.div`
   }
 `;
 
+export const engine = keyframes`
+  0%{
+    transform: translateY(0px);
+  }
+
+  50%{
+    transform: translateY(-2px);
+  }
+
+  100%{
+    transform: translateY(0px);
+  }
+`;
+
 export const Details = styled.div`
   display: flex;
   position: relative;
   margin: 10px auto;
+  flex-grow: 1;
   justify-content: space-evenly;
   .labels {
     display: flex;
-    justify-content: space-evenly;
-    width: 50%;
-  }
-  /* display: flex;
-  flex-flow: row wrap;
-  border: 1px solid black;
-  border-radius: 20px;
-  padding: 10px 20px;
-  margin-top: 10px;
-  flex-direction: column;
-  width: 100%;
-  .row {
-    display: flex;
-    justify-content: space-evenly;
+    justify-content: center;
     width: 100%;
-  }
-  .col {
-    width: 100%;
-    display: flex;
-    .subCol {
-      width: 100%;
+    transition: all 1s;
+    .label {
+      :nth-child(1) {
+        animation: ${engine} 1s infinite ease-in-out;
+      }
+      :nth-child(2) {
+        animation: ${engine} 1s infinite reverse;
+      }
+      :nth-child(3) {
+        animation: ${engine} 1s infinite ease-in-out;
+      }
+      :nth-child(4) {
+        animation: ${engine} 1s infinite reverse;
+      }
     }
-  } */
+  }
 `;
 
 export const DebugSection = styled.div`
   display: flex;
   justify-content: space-between;
+  flex-grow: 2;
+  animation: ${engine} 1s infinite ease-in-out;
   .debug {
-    width: 70%;
+    width: 80%;
     margin-left: 10px;
-    margin-bottom: 5px;
+    margin: 10px;
     font-style: italic;
     font-size: small;
     color: #ea4345;
-    border-radius: 10px;
+    border-radius: 250px 10px 250px 10px/300px 1px 300px 1px;
     padding: 3px;
     background: white;
-  }
-  .buttons {
-    .button {
-      .minutes {
-        font-size: 1.1em;
-        color: white;
-      }
-      .seconds {
-        font-size: 1.1em;
-        margin: 0 5px;
-      }
-      .ms {
-        font-size: 0.7em;
-      }
-    }
   }
 `;
 
